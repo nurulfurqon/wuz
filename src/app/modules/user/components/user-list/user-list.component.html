@@ -8,7 +8,7 @@
 <section class="w-full flex flex-col items-center px-5 bg-[#f5f6f7]">
   <div class="w-full max-w-5xl flex flex-col items-start justify-start py-16 md:py-20">
     <div class="w-full flex items-center justify-start mb-8 md:mb-12">
-      <input type="text" class="w-full max-w-lg px-4 md:px-5 py-[10px] md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ease-out-regular duration-300" placeholder="Search by company name, ex: 'romaguera'">
+      <input type="text" class="w-full max-w-lg px-4 md:px-5 py-[10px] md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ease-out-regular duration-300" placeholder="Filter by cases, ex: 'innovative'">
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
       @for (item of items; track $index) {
@@ -34,8 +34,8 @@
             </div>
             <div class="w-full h-[1px] bg-gray-300 my-3"></div>
             <div class="w-full">
-              <p class="text-sm font-medium">Lorem ipsum</p>
-              <p class="text-sm text-gray-500">e-enable innovative applications</p>
+              <p class="text-xs text-gray-500">Case</p>
+              <p class="text-sm">e-enable innovative applications</p>
             </div>
           </div>
           <a [routerLink]="['/', item]" class="inline-flex items-center justify-end mt-5 pr-1 group">
