@@ -1,26 +1,28 @@
 import { createReducer, on } from "@ngrx/store";
-import { GetUsers, GetUsersSuccess, GetUsersFailure, GetUserDetails, GetUserDetailsSuccess, GetUserDetailsFailure } from "./user.actions";
-import type { User } from "../models/user";
+import * as userActions from "./user.actions";
+import type { UserState, UserDetailState } from "../models/user";
 
-export const initialUserState: User[] = [];
-export const initialUserDetailsState: User = {} as User
+export const initialUserState: UserState = {
+  isLoading: false,
+  users: [],
+  error: null
+};
+export const initialUserDetailsState: UserDetailState = {
+  isLoading: false,
+  user: null,
+  error: null
+}
 
 export const UsersReducer = createReducer(
   initialUserState,
-  on(GetUsers, (state: User[]): User[] => state),
-  on(GetUsersSuccess, (state: User[], { users }): User[] => [...users]),
-  on(GetUsersFailure, (state: User[], { error }): User[] => {
-    console.error(error);
-    return state
-  })
+  on(userActions.GetUsers, (state): UserState => ({...state, isLoading: true})),
+  on(userActions.GetUsersSuccess, (state, { users }): UserState => ({...state, isLoading: false, users})),
+  on(userActions.GetUsersFailure, (state, { error }): UserState => ({...state, isLoading: false, error})),
 )
 
 export const UserDetailsReducer = createReducer(
   initialUserDetailsState,
-  on(GetUserDetails, (state: User): User => state),
-  on(GetUserDetailsSuccess, (state: User, { user }): User => user),
-  on(GetUserDetailsFailure, (state: User, { error }): User => {
-    console.error(error);
-    return state
-  })
+  on(userActions.GetUserDetails, (state): UserDetailState => ({...state, isLoading: true})),
+  on(userActions.GetUserDetailsSuccess, (state, { user }): UserDetailState => ({...state, isLoading: false, user})),
+  on(userActions.GetUserDetailsFailure, (state, { error }): UserDetailState => ({...state, isLoading: false, error})),
 )

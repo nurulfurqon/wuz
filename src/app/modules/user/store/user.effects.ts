@@ -15,7 +15,7 @@ export class UserEffects {
       mergeMap(() => this.userService.getUsers() // Call the userService to get users
         .pipe(
           map(users => userActions.GetUsersSuccess({ users })), // Dispatch GetUsersSuccess action with the retrieved users
-          catchError(error => of(userActions.GetUsersFailure({ error }))) // Handle any errors by dispatching GetUsersFailure action
+          catchError(error => of(userActions.GetUsersFailure({ error: error.message }))) // Handle any errors by dispatching GetUsersFailure action
         ))
     );
   });
@@ -27,7 +27,7 @@ export class UserEffects {
       mergeMap((action) => this.userService.getUserDetails(action.id) // Call the userService to get user details
         .pipe(
           map(user => userActions.GetUserDetailsSuccess({ user })), // Dispatch GetUserDetailsSuccess action with the retrieved user details
-          catchError(error => of(userActions.GetUserDetailsFailure({ error }))) // Handle any errors by dispatching GetUserDetailsFailure action
+          catchError(error => of(userActions.GetUserDetailsFailure({ error: error.message }))) // Handle any errors by dispatching GetUserDetailsFailure action
         ))
     );
   });

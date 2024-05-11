@@ -5,15 +5,16 @@ import { FormsModule } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { OnInit } from '@angular/core';
+import { UserListLoadingComponent } from '../user-list-loading/user-list-loading.component';
 import { User } from '../../models/user';
 import { GetUsers } from '../../store/user.actions';
-import { selectAllUsers } from '../../store/user.selectors';
+import { selectAllUsers, selectUserIsLoading, selectUserError } from '../../store/user.selectors';
 import { AppState } from '../../../../app.stete';
 
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule],
+  imports: [RouterLink, CommonModule, FormsModule, UserListLoadingComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
@@ -21,7 +22,10 @@ export class UserListComponent implements OnInit {
 
   private readonly store: Store<AppState> = inject(Store);
 
+  readonly isLoading$: Observable<boolean> = this.store.select(selectUserIsLoading)
   readonly users$: Observable<User[]> = this.store.select(selectAllUsers)
+  readonly error$: Observable<string|null> = this.store.select(selectUserError)
+
   public filteredUsers$: Observable<User[]>;
 
   searchInput: string = '';

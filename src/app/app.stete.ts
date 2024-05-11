@@ -1,6 +1,6 @@
-import { User } from "./modules/user/models/user";
+import { UserDetailState, UserState } from "./modules/user/models/user";
 
 export interface AppState {
-  readonly users: User[]
-  readonly user: User
+  readonly users: UserState
+  readonly user: UserDetailState
 }

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { User } from '../../models/user';
 import { GetUserDetails } from '../../store/user.actions';
-import { selectUserDetails } from '../../store/user.selectors';
+import { selectUserDetails, selectUserDetailsIsLoading, selectUserDetailsError } from '../../store/user.selectors';
 import { AppState } from '../../../../app.stete';
 
 @Component({
@@ -21,20 +21,18 @@ export class UserDetailComponent implements OnInit {
 
   private readonly store: Store<AppState> = inject(Store);
 
+  readonly isLoading$: Observable<boolean> = this.store.select(selectUserDetailsIsLoading)
+  readonly user$: Observable<User|null> = this.store.select(selectUserDetails)
+  readonly error$: Observable<string|null> = this.store.select(selectUserDetailsError)
+
   constructor(
     private readonly route: ActivatedRoute
   ) {}
-
-  readonly user$: Observable<User> = this.store.select(selectUserDetails)
-  userDetails: User | null = null;
 
   public fetchUser() {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.store.dispatch(GetUserDetails({ id: Number(id) }));
-      this.user$.subscribe(user => {
-        this.userDetails = user
-      })
     }
   }
 

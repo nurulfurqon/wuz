@@ -25,3 +25,15 @@ export interface User {
   website?: string
   company?: Company
 }
+
+export interface UserState {
+  isLoading: boolean
+  users: User[]
+  error: string | null
+}
+
+export interface UserDetailState {
+  isLoading: boolean
+  user: User | null
+  error: string | null
+}
