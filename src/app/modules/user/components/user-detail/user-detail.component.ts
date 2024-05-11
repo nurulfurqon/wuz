@@ -9,11 +9,12 @@ import { User } from '../../models/user';
 import { GetUserDetails } from '../../store/user.actions';
 import { selectUserDetails, selectUserDetailsIsLoading, selectUserDetailsError } from '../../store/user.selectors';
 import { AppState } from '../../../../app.stete';
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [RouterLink, CommonModule],
+  imports: [RouterLink, CommonModule, ToastComponent],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })
@@ -25,9 +26,17 @@ export class UserDetailComponent implements OnInit {
   readonly user$: Observable<User|null> = this.store.select(selectUserDetails)
   readonly error$: Observable<string|null> = this.store.select(selectUserDetailsError)
 
+  isShowToast: boolean = false;
+  errorMessage: string = '';
+
   constructor(
     private readonly route: ActivatedRoute
-  ) {}
+  ) {
+    this.error$.subscribe((error) => {
+      this.isShowToast = error ? true : false
+      this.errorMessage = error || ''
+    })
+  }
 
   public fetchUser() {
     const id = this.route.snapshot.paramMap.get('id');
@@ -36,7 +45,13 @@ export class UserDetailComponent implements OnInit {
     }
   }
 
+  public onToastClose() {
+    this.isShowToast = false
+  }
+
   ngOnInit(): void {
+    this.isShowToast = false
+    this.errorMessage = ''
     this.fetchUser()
   }
 }

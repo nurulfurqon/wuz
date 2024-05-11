@@ -6,6 +6,7 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 import { OnInit } from '@angular/core';
 import { UserListLoadingComponent } from '../user-list-loading/user-list-loading.component';
+import { ToastComponent } from '../../../../shared/components/toast/toast.component';
 import { User } from '../../models/user';
 import { GetUsers } from '../../store/user.actions';
 import { selectAllUsers, selectUserIsLoading, selectUserError } from '../../store/user.selectors';
@@ -14,7 +15,7 @@ import { AppState } from '../../../../app.stete';
 @Component({
   selector: 'app-user-list',
   standalone: true,
-  imports: [RouterLink, CommonModule, FormsModule, UserListLoadingComponent],
+  imports: [RouterLink, CommonModule, FormsModule, UserListLoadingComponent, ToastComponent],
   templateUrl: './user-list.component.html',
   styleUrl: './user-list.component.scss'
 })
@@ -29,18 +30,23 @@ export class UserListComponent implements OnInit {
   public filteredUsers$: Observable<User[]>;
 
   searchInput: string = '';
+  isShowToast: boolean = false;
+  errorMessage: string = '';
 
   constructor() {
     this.filteredUsers$ = this.users$
+    this.error$.subscribe((error) => {
+      this.isShowToast = error ? true : false
+      this.errorMessage = error || ''
+    })
   }
 
-  /**
-   * Dispatches an action to get users with an empty user array payload.
-   *
-   * @return {void} No return value
-   */
   public fetchUsers() {
     this.store.dispatch(GetUsers());
+  }
+
+  public onToastClose() {
+    this.isShowToast = false
   }
 
   onSearchInputChange() {
@@ -54,6 +60,8 @@ export class UserListComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.isShowToast = false
+    this.errorMessage = ''
     this.fetchUsers()
   }
 }

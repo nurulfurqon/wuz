@@ -1,0 +1,10 @@
+@if (isShow) {
+  <div class="fixed w-[calc(100vw-40px)] max-w-md bottom-5 right-5 bg-red-600 text-white text-sm space-x-2 px-4 py-2 rounded-md shadow-md flex justify-between items-center z-20">
+    <div class="flex-1 overflow-x-scroll sm:overflow-x-hidden">{{ message }}</div>
+    <button type="button" class="bg-gray-200 hover:bg-white focus:outline-none h-5 w-5 transition-all ease-out-regular duration-300 shadow flex items-center justify-center rounded-full flex-shrink-0" (click)="closeToast()">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-red-600" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M4.707 4.293a1 1 0 0 1 1.414 0L10 8.586l4.293-4.293a1 1 0 1 1 1.414 1.414L11.414 10l4.293 4.293a1 1 0 0 1-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 0 1-1.414-1.414L8.586 10 4.293 5.707a1 1 0 0 1 0-1.414z" clip-rule="evenodd" />
+      </svg>
+    </button>
+  </div>
+}
