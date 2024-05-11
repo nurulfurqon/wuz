@@ -1,17 +1,20 @@
 <section class="w-full flex flex-col items-center px-5 py-16 md:py-20 bg-white">
-  <div class="w-full max-w-5xl flex flex-col items-start justify-start">
-    <h2 class="font-bold text-3xl md:text-5xl md:leading-tight max-w-2xl">
+  <div class="w-full max-w-5xl flex flex-col items-center justify-start">
+    <h2 class="font-bold text-3xl md:text-5xl md:leading-tight max-w-2xl text-center">
       Unlocking Potential:<br>Discovering the Best Talent in Your Screen
     </h2>
   </div>
 </section>
 <section class="w-full flex flex-col items-center px-5 bg-[#f5f6f7]">
   <div class="w-full max-w-5xl flex flex-col items-start justify-start py-16 md:py-20">
-    <div class="w-full flex items-center justify-start mb-8 md:mb-12">
-      <input type="text" class="w-full max-w-lg px-4 md:px-5 py-[10px] md:py-3 text-sm md:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ease-out-regular duration-300" placeholder="Search by cases, ex: 'innovative'">
+    <div class="w-full flex items-center justify-center mb-8 md:mb-12">
+      <div class="relative w-full max-w-lg flex items-center justify-start">
+        <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 md:left-4 w-5 h-5 md:w-6 md:h-6 text-gray-400" viewBox="0 0 512 512"><path fill="currentColor" d="M456.69 421.39L362.6 327.3a173.81 173.81 0 0 0 34.84-104.58C397.44 126.38 319.06 48 222.72 48S48 126.38 48 222.72s78.38 174.72 174.72 174.72A173.81 173.81 0 0 0 327.3 362.6l94.09 94.09a25 25 0 0 0 35.3-35.3M97.92 222.72a124.8 124.8 0 1 1 124.8 124.8a124.95 124.95 0 0 1-124.8-124.8"/></svg>
+        <input [(ngModel)]="searchInput" (ngModelChange)="onSearchInputChange()" type="text" class="w-full pl-9 pr-4 md:pr-5 md:pl-12 py-[10px] md:py-3 text-sm md:text-base border border-gray-300 rounded-3xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all ease-out-regular duration-300" placeholder="Search by cases, ex: 'innovative'">
+      </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5 w-full">
-      @for (item of items; track $index) {
+      @for (item of filteredUsers$ | async; track $index) {
         <div class="w-full flex flex-col items-end justify-start border border-gray-200 p-4 rounded-xl bg-white transition-all ease-out-relax duration-300 shadow-sm hover:z-10 hover:shadow-2xl">
           <div class="flex-1 flex flex-col w-full">
             <div class="flex items-start justify-start space-x-4">
@@ -21,24 +24,24 @@
                 </svg>
               </div>
               <div class="flex flex-col items-start justify-start">
-                <h4 class="md:text-lg font-medium mb-1">Nurul Furqon</h4>
-                <a href="" target="_blank" class="flex items-center space-x-2 mb-1">
+                <h4 class="md:text-lg font-medium mb-1">{{item.name}}</h4>
+                <a href="mailto:{{item.email}}" target="_blank" class="flex items-center space-x-2 mb-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-[18px] md:h-[18px]" viewBox="0 0 512 512"><rect width="416" height="320" x="48" y="96" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" rx="40" ry="40"/><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="m112 160l144 112l144-112"/></svg>
-                  <p class="text-sm text-gray-500">furqonnurul&#64;gmail.com</p>
+                  <p class="text-sm text-gray-500">{{item.email}}</p>
                 </a>
-                <a href="" target="_blank" class="flex items-center space-x-2 mb-1">
+                <a href="https://{{item.website}}" target="_blank" class="flex items-center space-x-2 mb-1">
                   <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 md:w-[18px] md:h-[18px]" viewBox="0 0 512 512"><path d="M280 341.1l-1.2.1c-3.6.4-7 2-9.6 4.5l-64.6 64.6c-13.7 13.7-32 21.2-51.5 21.2s-37.8-7.5-51.5-21.2c-13.7-13.7-21.2-32-21.2-51.5s7.5-37.8 21.2-51.5l68.6-68.6c3.5-3.5 7.3-6.6 11.4-9.3 4.6-3 9.6-5.6 14.8-7.5 4.8-1.8 9.9-3 15-3.7 3.4-.5 6.9-.7 10.2-.7 1.4 0 2.8.1 4.6.2 17.7 1.1 34.4 8.6 46.8 21 7.7 7.7 13.6 17.1 17.1 27.3 2.8 8 11.2 12.5 19.3 10.1.1 0 .2-.1.3-.1.1 0 .2 0 .2-.1 8.1-2.5 12.8-11 10.5-19.1-4.4-15.6-12.2-28.7-24.6-41-15.6-15.6-35.9-25.8-57.6-29.3-1.9-.3-3.8-.6-5.7-.8-3.7-.4-7.4-.6-11.1-.6-2.6 0-5.2.1-7.7.3-5.4.4-10.8 1.2-16.2 2.5-1.1.2-2.1.5-3.2.8-6.7 1.8-13.3 4.2-19.5 7.3-10.3 5.1-19.6 11.7-27.7 19.9l-68.6 68.6C58.9 304.4 48 330.8 48 359c0 28.2 10.9 54.6 30.7 74.4C98.5 453.1 124.9 464 153 464c28.2 0 54.6-10.9 74.4-30.7l65.3-65.3c10.4-10.5 2-28.3-12.7-26.9z" fill="currentColor"/><path d="M433.3 78.7C413.5 58.9 387.1 48 359 48s-54.6 10.9-74.4 30.7l-63.7 63.7c-9.7 9.7-3.6 26.3 10.1 27.4 4.7.4 9.3-1.3 12.7-4.6l63.8-63.6c13.7-13.7 32-21.2 51.5-21.2s37.8 7.5 51.5 21.2c13.7 13.7 21.2 32 21.2 51.5s-7.5 37.8-21.2 51.5l-68.6 68.6c-3.5 3.5-7.3 6.6-11.4 9.3-4.6 3-9.6 5.6-14.8 7.5-4.8 1.8-9.9 3-15 3.7-3.4.5-6.9.7-10.2.7-1.4 0-2.9-.1-4.6-.2-17.7-1.1-34.4-8.6-46.8-21-7.3-7.3-12.8-16-16.4-25.5-2.9-7.7-11.1-11.9-19.1-9.8-8.9 2.3-14.1 11.7-11.3 20.5 4.5 14 12.1 25.9 23.7 37.5l.2.2c16.9 16.9 39.4 27.6 63.3 30.1 3.7.4 7.4.6 11.1.6 2.6 0 5.2-.1 7.8-.3 6.5-.5 13-1.6 19.3-3.2 6.7-1.8 13.3-4.2 19.5-7.3 10.3-5.1 19.6-11.7 27.7-19.9l68.6-68.6c19.8-19.8 30.7-46.2 30.7-74.4s-11.1-54.6-30.9-74.4z" fill="currentColor"/></svg>
-                  <p class="text-sm text-gray-500">thefurqon.com</p>
+                  <p class="text-sm text-gray-500">{{item.website}}</p>
                 </a>
               </div>
             </div>
             <div class="w-full h-[1px] bg-gray-300 my-3"></div>
             <div class="w-full">
               <p class="text-xs text-gray-500">Case</p>
-              <p class="text-sm">e-enable innovative applications</p>
+              <p class="text-sm">{{item.company?.bs}}</p>
             </div>
           </div>
-          <a [routerLink]="['/', item]" class="inline-flex items-center justify-end mt-5 pr-1 group">
+          <a [routerLink]="['/', item.id]" class="inline-flex items-center justify-end mt-5 pr-1 group">
             <button class="flex items-center justify-start text-blue-500 text-sm font-medium space-x-1">
               <span>View Detail</span>
               <div class="w-4 h-4 relative overflow-hidden">
@@ -47,6 +50,11 @@
               </div>
             </button>
           </a>
+        </div>
+      } @empty {
+        <div class="w-full col-span-3 flex flex-col items-center justify-center min-h-[40vh] py-10">
+          <img src="/assets/images/illustration-empty.png" class="object-cover w-full max-w-72 mb-5" alt="No users found" />
+          <p class="text-gray-500">Oops! No users found</p>
         </div>
       }
     </div>

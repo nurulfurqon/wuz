@@ -1,35 +1,44 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { OnInit } from '@angular/core';
+import { User } from '../../models/user';
+import { GetUserDetails } from '../../store/user.actions';
+import { selectUserDetails } from '../../store/user.selectors';
+import { AppState } from '../../../../app.stete';
 
 @Component({
   selector: 'app-user-detail',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, CommonModule],
   templateUrl: './user-detail.component.html',
   styleUrl: './user-detail.component.scss'
 })
-export class UserDetailComponent {
-  detail = {
-    id: 1,
-    name: 'Leanne Graham',
-    username: 'Bret',
-    email: 'Sincere@april.biz',
-    address: {
-      street: 'Kulas Light',
-      suite: 'Apt. 556',
-      city: 'Gwenborough',
-      zipcode: '92998-3874',
-      geo: {
-        lat: '-37.3159',
-        lng: '81.1496'
-      }
-    },
-    phone: '1-770-736-8031 x56442',
-    website: 'hildegard.org',
-    company: {
-      name: 'Romaguera-Crona',
-      catchPhrase: 'Multi-layered client-server neural-net',
-      bs: 'harness real-time e-markets'
+export class UserDetailComponent implements OnInit {
+
+  private readonly store: Store<AppState> = inject(Store);
+
+  constructor(
+    private readonly route: ActivatedRoute
+  ) {}
+
+  readonly user$: Observable<User> = this.store.select(selectUserDetails)
+  userDetails: User | null = null;
+
+  public fetchUser() {
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.store.dispatch(GetUserDetails({ id: Number(id) }));
+      this.user$.subscribe(user => {
+        this.userDetails = user
+      })
     }
-  };
+  }
+
+  ngOnInit(): void {
+    this.fetchUser()
+  }
 }
