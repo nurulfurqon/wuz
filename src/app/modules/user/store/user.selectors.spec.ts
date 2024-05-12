@@ -11,7 +11,7 @@ describe('Selectors', () => {
       error: null,
     },
     user: {
-      user: { id: 1, name: 'John', age: 30 },
+      user: { id: 1, name: 'John' },
       isLoading: true,
       error: 'Unable to fetch user details',
     },
