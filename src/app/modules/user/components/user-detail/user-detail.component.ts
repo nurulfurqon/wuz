@@ -33,7 +33,7 @@ export class UserDetailComponent implements OnInit {
     private readonly route: ActivatedRoute
   ) {
     this.error$.subscribe((error) => {
-      this.isShowToast = error ? true : false
+      this.isShowToast = !!error
       this.errorMessage = error || ''
     })
   }

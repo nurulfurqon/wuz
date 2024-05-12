@@ -36,7 +36,7 @@ export class UserListComponent implements OnInit {
   constructor() {
     this.filteredUsers$ = this.users$
     this.error$.subscribe((error) => {
-      this.isShowToast = error ? true : false
+      this.isShowToast = !!error
       this.errorMessage = error || ''
     })
   }

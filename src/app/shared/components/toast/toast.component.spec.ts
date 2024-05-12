@@ -20,4 +20,10 @@ describe('ToastComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit toastClose event when closeToast is called', () => {
+    spyOn(component.toastClose, 'emit');
+    component.closeToast();
+    expect(component.toastClose.emit).toHaveBeenCalled();
+  });
 });
